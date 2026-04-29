@@ -42,7 +42,7 @@ public class JobServiceimpl implements JobService {
         this.reviewClient = reviewClient;
     }
     @Override
-    @CircuitBreaker(name = "companyBreaker")
+    @CircuitBreaker(name = "companyBreaker", fallbackMethod = "companyBreakerFallback")
     public List<JobDTO> findAll() {
         List<Job> jobs = jobRepository.findAll();
         List<JobDTO> jobWithCompanyDTOS = new ArrayList<>();
@@ -55,6 +55,11 @@ public class JobServiceimpl implements JobService {
         }
 
         return jobWithCompanyDTOS;
+    }
+    public List<String> companyBreakerFallback(Exception e) {
+        List<String> list = new ArrayList<>();
+        list.add("dummmy");
+        return list;
     }
     private JobDTO convertToDTO(Job job) {
         Company company = companyClient.getCompany(job.getCompanyId());

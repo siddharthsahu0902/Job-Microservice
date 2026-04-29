@@ -64,7 +64,7 @@ public class JobServiceimpl implements JobService {
     }
     public List<String> companyBreakerFallback(Exception e) {
         List<String> list = new ArrayList<>();
-        list.add("dummmy");
+        list.add("Call to the service failed with the error : " + e.getMessage());
         return list;
     }
     private JobDTO convertToDTO(Job job) {
